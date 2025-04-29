@@ -39,7 +39,7 @@ public class Member {
     private String profileImageUrl;  // 기본 프로필 이미지 제공
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private Role role;
 
     @Enumerated(EnumType.STRING)
