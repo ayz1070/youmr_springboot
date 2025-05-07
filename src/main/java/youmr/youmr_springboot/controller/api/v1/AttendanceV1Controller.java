@@ -8,6 +8,7 @@ import youmr.youmr_springboot.dto.attendance.AttendanceResponse;
 import youmr.youmr_springboot.service.AttendanceService;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,18 +17,22 @@ public class AttendanceV1Controller {
 
     private final AttendanceService attendanceService;
 
-    /**
-     * 출석하기
-     */
+
+    // 전체 출석 조회
+    @GetMapping
+    public ResponseEntity<List<AttendanceResponse>> getAllAttendances() {
+        List<AttendanceResponse> responses = attendanceService.getAllAttendances();
+        return ResponseEntity.ok(responses);
+    }
+
+    // 출석
     @PostMapping
     public ResponseEntity<AttendanceResponse> attend(@RequestBody AttendanceRequest request) {
         AttendanceResponse response = attendanceService.attend(request);
         return ResponseEntity.ok(response);
     }
 
-    /**
-     * 출석 취소하기
-     */
+    // 출석 취소하기
     @DeleteMapping
     public ResponseEntity<Void> cancelAttendance(
             @RequestParam Long memberId,
