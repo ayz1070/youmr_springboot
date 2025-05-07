@@ -11,6 +11,8 @@ import youmr.youmr_springboot.repository.AttendanceRepository;
 import youmr.youmr_springboot.repository.MemberRepository;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,9 +22,16 @@ public class AttendanceService {
     private final AttendanceRepository attendanceRepository;
     private final MemberRepository memberRepository;
 
-    /**
-     * 출석하기
-     */
+
+    // 전체 출석 조회
+    public List<AttendanceResponse> getAllAttendances() {
+        return attendanceRepository.findAllByOrderByAttendanceDateDesc()
+                .stream()
+                .map(AttendanceResponse::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    // 출석
     public AttendanceResponse attend(AttendanceRequest request) {
         // 1. memberId로 Member 조회
         Member member = memberRepository.findById(request.getMemberId())
@@ -45,9 +54,7 @@ public class AttendanceService {
         return AttendanceResponse.fromEntity(savedAttendance);
     }
 
-    /**
-     * 출석 취소
-     */
+    // 출석 취소
     public void cancelAttendance(Long memberId, LocalDate attendanceDate, String attendanceType) {
         Attendance attendance = attendanceRepository.findByMemberIdAndAttendanceDateAndAttendanceType(memberId, attendanceDate, attendanceType)
                 .orElseThrow(() -> new IllegalArgumentException("출석 기록이 존재하지 않습니다."));
