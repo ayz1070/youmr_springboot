@@ -6,34 +6,36 @@ import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "attendance",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"member_id", "attendance_date", "attendance_type"})})
+
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Entity
+@Table(name = "attendance", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"member_id", "attendance_date", "attendance_type"}),
+        @UniqueConstraint(columnNames = {"member_id", "event_id"})
+})
 public class Attendance {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // 필수
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @Column(name = "attendance_date", nullable = false)
+    // 일일 출석일 경우 사용
     private LocalDate attendanceDate;
 
-    @Column(name = "attendance_type", nullable = false, length = 30)
-    private String attendanceType = "DEFAULT";
+    // "DEFAULT", "EVENT" 같은 구분자
+    private String attendanceType;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
+    // 이벤트 출석일 경우 사용
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "event_id")
+    private Event event;
+
     private LocalDateTime createdAt;
-
-    @PrePersist
-    public void prePersist() {
-        this.createdAt = LocalDateTime.now();
-    }
 }
