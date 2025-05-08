@@ -8,9 +8,10 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "attendance",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"member_id", "attendance_date", "attendance_type"})})
+        uniqueConstraints = @UniqueConstraint(columnNames = {"member_id", "event_id"})
+)
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Attendance {
@@ -20,16 +21,13 @@ public class Attendance {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", nullable = false)
+    @JoinColumn(name = "member_id")
     private Member member;
 
-    @Column(name = "attendance_date", nullable = false)
-    private LocalDate attendanceDate;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "event_id")
+    private Event event;
 
-    @Column(name = "attendance_type", nullable = false, length = 30)
-    private String attendanceType = "DEFAULT";
-
-    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @PrePersist
