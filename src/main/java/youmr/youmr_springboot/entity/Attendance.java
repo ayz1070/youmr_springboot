@@ -37,5 +37,11 @@ public class Attendance {
     @JoinColumn(name = "event_id")
     private Event event;
 
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
 }
