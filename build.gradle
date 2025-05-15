@@ -40,6 +40,10 @@ dependencies {
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2' // API 문서 (Swagger)
     implementation 'com.fasterxml.jackson.core:jackson-databind'
     implementation 'org.springframework.boot:spring-boot-starter-actuator' // 모니터링 (선택)
+
+    implementation 'com.google.firebase:firebase-admin:9.4.3'
+
+
 }
 
 tasks.named('test') {

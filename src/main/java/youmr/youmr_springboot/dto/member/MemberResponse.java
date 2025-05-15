@@ -6,6 +6,7 @@ import youmr.youmr_springboot.entity.Member;
 import youmr.youmr_springboot.entity.type.MemberStatus;
 import youmr.youmr_springboot.entity.type.Provider;
 import youmr.youmr_springboot.entity.type.Role;
+import youmr.youmr_springboot.entity.type.WeekType;
 
 import java.time.LocalDateTime;
 
@@ -17,6 +18,7 @@ public class MemberResponse {
     private Provider provider;
     private String name;
     private String nickname;
+    private WeekType weekType;
     private String profileImageUrl;
     private Role role;
     private MemberStatus status;
@@ -30,6 +32,7 @@ public class MemberResponse {
                 .provider(member.getProvider())
                 .name(member.getName())
                 .nickname(member.getNickname())
+                .weekType(member.getWeekType())
                 .profileImageUrl(member.getProfileImageUrl())
                 .role(member.getRole())
                 .status(member.getStatus())

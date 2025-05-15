@@ -9,6 +9,7 @@ import youmr.youmr_springboot.entity.Member;
 import youmr.youmr_springboot.entity.type.MemberStatus;
 import youmr.youmr_springboot.entity.type.Provider;
 import youmr.youmr_springboot.entity.type.Role;
+import youmr.youmr_springboot.entity.type.WeekType;
 
 @Getter
 @Setter
@@ -28,6 +29,8 @@ public class SignUpRequest {
     @Size(max = 20)
     private String nickname;
 
+    private WeekType weekType;
+
     private String profileImageUrl;
 
     public Member toEntity() {
@@ -36,6 +39,7 @@ public class SignUpRequest {
                 .provider(this.provider)
                 .name(this.name)
                 .nickname(this.nickname)
+                .weekType(this.weekType)
                 .profileImageUrl(
                         (this.profileImageUrl != null && !this.profileImageUrl.isBlank())
                                 ? this.profileImageUrl

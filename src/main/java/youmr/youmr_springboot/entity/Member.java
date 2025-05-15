@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import youmr.youmr_springboot.entity.type.MemberStatus;
 import youmr.youmr_springboot.entity.type.Provider;
 import youmr.youmr_springboot.entity.type.Role;
+import youmr.youmr_springboot.entity.type.WeekType;
 
 import java.time.LocalDateTime;
 
@@ -34,6 +35,10 @@ public class Member {
 
     @Column(nullable = false, unique = true, length = 20)
     private String nickname;  // 닉네임 (유니크 설정)
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "week_type")
+    private WeekType weekType;
 
     @Column(nullable = false)
     private String profileImageUrl;  // 기본 프로필 이미지 제공
