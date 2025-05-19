@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class FcmTokenResponse {
 
     private Long id;
-    private String memberId;
+    private Long memberId;
     private String token;
     private boolean isActive;
     private DeviceType deviceType;

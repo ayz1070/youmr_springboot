@@ -25,14 +25,14 @@ public class FcmTokenV1Controller {
 
     // 토큰 비활성화 (로그아웃, 탈퇴 등)
     @PutMapping("/deactivate/{memberId}")
-    public ResponseEntity<Void> deactivateToken(@PathVariable String memberId) {
+    public ResponseEntity<Void> deactivateToken(@PathVariable Long memberId) {
         fcmTokenService.deactivateTokenByMemberId(memberId);
         return ResponseEntity.noContent().build();
     }
 
     // memberId로 토큰 조회
     @GetMapping("/{memberId}")
-    public ResponseEntity<FcmTokenResponse> getTokenByMemberId(@PathVariable String memberId) {
+    public ResponseEntity<FcmTokenResponse> getTokenByMemberId(@PathVariable Long memberId) {
         return fcmTokenService.findTokenByMemberId(memberId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

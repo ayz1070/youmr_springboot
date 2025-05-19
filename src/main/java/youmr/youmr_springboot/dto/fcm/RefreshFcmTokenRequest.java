@@ -8,11 +8,11 @@ import youmr.youmr_springboot.entity.type.DeviceType;
 @NoArgsConstructor
 public class RefreshFcmTokenRequest {
 
-    private String memberId;
+    private Long memberId;
     private String token;
     private DeviceType deviceType;
 
-    public RefreshFcmTokenRequest(String memberId, String token, DeviceType deviceType) {
+    public RefreshFcmTokenRequest(Long memberId, String token, DeviceType deviceType) {
         this.memberId = memberId;
         this.token = token;
         this.deviceType = deviceType;

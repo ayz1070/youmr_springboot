@@ -21,7 +21,7 @@ public class FcmToken {
     private Long id;
 
     @Column(name = "member_id", nullable = false)
-    private String memberId;
+    private Long memberId;
 
     @Column(name = "token", nullable = false, length = 512)
     private String token;

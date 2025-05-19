@@ -11,16 +11,25 @@ public class FcmSender {
     public void sendToMultipleTokens(List<String> tokens, String title, String body) {
         if (tokens.isEmpty()) return;
 
-        MulticastMessage message = MulticastMessage.builder()
-                .addAllTokens(tokens)
-                .setNotification(Notification.builder().setTitle(title).setBody(body).build())
+        for (String token : tokens) {
+            sendToToken(token, title, body);
+        }
+    }
+
+    private void sendToToken(String token, String title, String body) {
+        Message message = Message.builder()
+                .setToken(token)
+                .setNotification(Notification.builder()
+                        .setTitle(title)
+                        .setBody(body)
+                        .build())
                 .build();
 
         try {
-            BatchResponse response = FirebaseMessaging.getInstance().sendMulticast(message);
-            System.out.println("푸시 발송 성공: " + response.getSuccessCount() + "개");
+            String response = FirebaseMessaging.getInstance().send(message);
+            System.out.println("✅ FCM 전송 성공: " + response);
         } catch (FirebaseMessagingException e) {
-            e.printStackTrace();  // 로깅 또는 DB 저장 가능
+            System.err.println("❌ FCM 전송 실패: " + e.getMessage());
         }
     }
 }

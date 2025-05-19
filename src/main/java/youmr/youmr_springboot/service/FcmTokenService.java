@@ -40,7 +40,7 @@ public class FcmTokenService {
     /// read
     // 특정 사용자의 모든 토큰 조회
     @Transactional(readOnly = true)
-    public Optional<FcmTokenResponse> findTokenByMemberId(String memberId) {
+    public Optional<FcmTokenResponse> findTokenByMemberId(Long memberId) {
         return fcmTokenRepository.findByMemberId(memberId)
                 .map(FcmTokenResponse::fromEntity);
     }
@@ -56,7 +56,7 @@ public class FcmTokenService {
     /// etc
     // 로그아웃/탈퇴 시 비활성화
     @Transactional
-    public void deactivateTokenByMemberId(String memberId) {
+    public void deactivateTokenByMemberId(Long memberId) {
         fcmTokenRepository.findByMemberIdAndIsActiveTrue(memberId)
                 .ifPresent(FcmToken::deactivate);
     }
