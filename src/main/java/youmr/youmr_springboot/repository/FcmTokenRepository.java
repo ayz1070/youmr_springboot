@@ -8,13 +8,13 @@ import java.util.Optional;
 
 public interface FcmTokenRepository extends JpaRepository<FcmToken, Long> {
 
-    Optional<FcmToken> findByMemberId(String memberId);
+    Optional<FcmToken> findByMemberId(Long memberId);
 
-    Optional<FcmToken> findByMemberIdAndIsActiveTrue(String memberId);
+    Optional<FcmToken> findByMemberIdAndIsActiveTrue(Long memberId);
 
     List<FcmToken> findAllByIsActiveTrue();
 
-    boolean existsByMemberIdAndToken(String memberId, String token);
+    boolean existsByMemberIdAndToken(Long memberId, String token);
 
     List<FcmToken> findAllByMemberIdInAndIsActiveTrue(List<String> memberIds);
 
