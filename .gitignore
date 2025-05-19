@@ -48,3 +48,5 @@ application-*.properties
 *.jar
 *.war
 *.class
+
+src/main/resources/firebase-service-key.json
