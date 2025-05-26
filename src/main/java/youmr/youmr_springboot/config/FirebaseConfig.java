@@ -28,10 +28,10 @@ public class FirebaseConfig {
                         .build();
 
                 FirebaseApp.initializeApp(options);
-                log.info("✅ FirebaseApp initialized");
+                log.info("FirebaseApp initialized");
             }
         } catch (IOException e) {
-            log.error("❌ FirebaseApp initialization failed", e);
+            log.error("FirebaseApp initialization failed", e);
         }
     }
 }
