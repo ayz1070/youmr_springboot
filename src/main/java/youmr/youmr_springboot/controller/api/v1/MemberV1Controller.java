@@ -3,8 +3,7 @@ package youmr.youmr_springboot.controller.api.v1;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import youmr.youmr_springboot.dto.member.MemberResponse;
-import youmr.youmr_springboot.dto.member.SignUpRequest;
+import youmr.youmr_springboot.dto.member.*;
 import youmr.youmr_springboot.service.MemberService;
 
 @RestController
@@ -20,7 +19,7 @@ public class MemberV1Controller {
     }
 
     @PostMapping("/signup")
-    public MemberResponse signUp(@RequestBody @Valid SignUpRequest request) {
+    public SignUpResponse signUp(@RequestBody @Valid SignUpRequest request) {
         return memberService.create(request);
     }
 }
