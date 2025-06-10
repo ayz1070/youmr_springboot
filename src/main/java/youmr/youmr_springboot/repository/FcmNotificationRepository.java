@@ -8,4 +8,6 @@ import java.util.List;
 public interface FcmNotificationRepository extends JpaRepository<FcmNotification, Long> {
 
     List<FcmNotification> findAllByIsSentFalse();
+
+
 }

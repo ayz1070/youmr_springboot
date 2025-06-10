@@ -6,7 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 import youmr.youmr_springboot.dto.fcm.FcmTokenResponse;
 import youmr.youmr_springboot.dto.fcm.RefreshFcmTokenRequest;
 import youmr.youmr_springboot.entity.FcmToken;
+import youmr.youmr_springboot.entity.Member;
 import youmr.youmr_springboot.repository.FcmTokenRepository;
+import youmr.youmr_springboot.repository.MemberRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,11 +18,18 @@ import java.util.Optional;
 public class FcmTokenService {
 
     private final FcmTokenRepository fcmTokenRepository;
+    private final MemberRepository memberRepository;
+
+
+
 
     /// create + update
     // 토큰 저장 또는 갱신
     @Transactional
     public FcmTokenResponse saveOrUpdateToken(RefreshFcmTokenRequest request) {
+        Member member = memberRepository.findById(request.getMemberId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+
         return fcmTokenRepository.findByMemberId(request.getMemberId())
                 .map(existing -> {
                     existing.refreshToken(request.getToken(), request.getDeviceType());
@@ -28,7 +37,7 @@ public class FcmTokenService {
                 })
                 .orElseGet(() -> {
                     FcmToken newToken = FcmToken.builder()
-                            .memberId(request.getMemberId())
+                            .member(member)
                             .token(request.getToken())
                             .deviceType(request.getDeviceType())
                             .isActive(true)
