@@ -12,19 +12,20 @@ import java.util.Map;
 @Service
 public class FirebaseTokenService {
 
+
     public String createToken(Long memberId, String role) {
         try {
             String uid = "youmr_" + memberId;
 
-            // 사용자 생성 (이미 존재할 경우 예외 무시)
+            // ✅ 사용자 없으면 새로 생성
             try {
                 FirebaseAuth.getInstance().getUser(uid);
             } catch (FirebaseAuthException e) {
-                if (e.getErrorCode().equals("user-not-found")) {
-                    CreateRequest request = new CreateRequest().setUid(uid);
-                    FirebaseAuth.getInstance().createUser(request);
+                if (e.getAuthErrorCode().name().equals("USER_NOT_FOUND")) {
+                    CreateRequest createRequest = new CreateRequest().setUid(uid);
+                    FirebaseAuth.getInstance().createUser(createRequest);
                 } else {
-                    throw e;
+                    throw e; // 다른 오류는 다시 던지기
                 }
             }
 
@@ -32,9 +33,9 @@ public class FirebaseTokenService {
             claims.put("role", role);
 
             return FirebaseAuth.getInstance().createCustomToken(uid, claims);
-
         } catch (FirebaseAuthException e) {
             throw new RuntimeException("Firebase token 생성 실패", e);
         }
     }
+
 }
