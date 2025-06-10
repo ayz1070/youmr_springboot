@@ -7,6 +7,7 @@ import youmr.youmr_springboot.entity.type.MemberStatus;
 import youmr.youmr_springboot.entity.type.WeekType;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
@@ -17,4 +18,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     // 모든 활성 사용자
     List<Member> findAllByStatus(MemberStatus status);
+
+    Optional<Member> findBySocialId(String socialId);
 }

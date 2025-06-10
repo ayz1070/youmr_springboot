@@ -18,6 +18,11 @@ public class MemberV1Controller {
         return memberService.findById(id);
     }
 
+    @GetMapping("/social/{socialId}")
+    public MemberResponse getMemberBySocialId(@PathVariable String socialId) {
+        return memberService.findBySocialId(socialId);
+    }
+
     @PostMapping("/signup")
     public SignUpResponse signUp(@RequestBody @Valid SignUpRequest request) {
         return memberService.create(request);

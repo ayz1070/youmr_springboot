@@ -1,9 +1,11 @@
 package youmr.youmr_springboot.common.scheduler;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import youmr.youmr_springboot.entity.type.WeekType;
+import youmr.youmr_springboot.repository.AttendanceRepository;
 import youmr.youmr_springboot.service.FcmNotificationSendService;
 
 import java.time.DayOfWeek;
@@ -11,11 +13,13 @@ import java.time.LocalDate;
 import java.util.EnumMap;
 import java.util.Map;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
-public class AttendanceNotificationScheduler {
+public class AttendanceScheduler {
 
     private final FcmNotificationSendService fcmNotificationSendService;
+    private final AttendanceRepository attendanceRepository;
 
     // 요일별 알림 메시지 매핑
     private static final Map<WeekType, String> dayMessages = new EnumMap<>(WeekType.class);
@@ -42,5 +46,13 @@ public class AttendanceNotificationScheduler {
                 "출석 알림",
                 message
         );
+    }
+    @Scheduled(cron = "0 0 0 * * *") // 매일 0시 0분 0초
+    public void clearAttendanceRecords() {
+        LocalDate today = LocalDate.now();
+        log.info("출석 기록 삭제 실행 - 날짜: {}", today);
+
+        int deletedCount = attendanceRepository.deleteAllByAttendanceDate(today);
+        log.info("삭제된 출석 수: {}", deletedCount);
     }
 }

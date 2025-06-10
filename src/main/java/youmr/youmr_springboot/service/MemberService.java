@@ -27,6 +27,11 @@ public class MemberService {
         return MemberResponse.fromEntity(member);
     }
 
+    public MemberResponse findBySocialId(String socialId) {
+        Member member = memberRepository.findBySocialId(socialId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다. socialId=" + socialId));
+        return MemberResponse.fromEntity(member);
+    }
 
     @Transactional
     public SignUpResponse create(SignUpRequest request) {
