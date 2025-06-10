@@ -22,7 +22,7 @@ public class FcmTokenResponse {
     public static FcmTokenResponse fromEntity(FcmToken entity) {
         return FcmTokenResponse.builder()
                 .id(entity.getId())
-                .memberId(entity.getMemberId())
+                .memberId(entity.getMember().getId())
                 .token(entity.getToken())
                 .isActive(entity.isActive())
                 .deviceType(entity.getDeviceType())

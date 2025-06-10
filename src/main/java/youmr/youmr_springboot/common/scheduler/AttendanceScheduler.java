@@ -33,7 +33,7 @@ public class AttendanceScheduler {
         dayMessages.put(WeekType.SUNDAY, "일요일입니다! 출석하고 한 주 마무리 💡");
     }
 
-    // 매일 정오에 실행
+    /// 출석 체크 요청 : 12시
     @Scheduled(cron = "0 0 12 * * *", zone = "Asia/Seoul")
     public void sendDailyAttendanceReminder() {
         DayOfWeek today = LocalDate.now().getDayOfWeek(); // ex: MONDAY
@@ -47,6 +47,8 @@ public class AttendanceScheduler {
                 message
         );
     }
+
+    /// 출석 기록 삭제 : 24시
     @Scheduled(cron = "0 0 0 * * *") // 매일 0시 0분 0초
     public void clearAttendanceRecords() {
         LocalDate today = LocalDate.now();
@@ -54,5 +56,18 @@ public class AttendanceScheduler {
 
         int deletedCount = attendanceRepository.deleteAllByAttendanceDate(today);
         log.info("삭제된 출석 수: {}", deletedCount);
+    }
+
+    /// 회비 안내 : 매월 1일 12시
+    @Scheduled(cron = "0 0 12 1 * *", zone = "Asia/Seoul")
+    public void sendMonthlyPaymentReminder() {
+        log.info("회비 납부 알림 전송 시작");
+
+        fcmNotificationSendService.sendToAllActiveMembers(
+                "회비 납부 안내",
+                "이번 달 회비를 납부해 주세요! 💳\n"
+        );
+
+        log.info("회비 납부 알림 전송 완료");
     }
 }
